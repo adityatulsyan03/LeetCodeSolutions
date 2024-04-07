@@ -22,10 +22,15 @@ public:
                     return false;
             }
         }
-        while(st1.size()!=0 && st2.size()!=0 && st1.top()<st2.top()){
-            st1.pop();
-            st2.pop();
-        }  
+        while(st1.size()!=0 && st2.size()!=0){
+            if(st1.top()<st2.top()){
+                st1.pop();
+                st2.pop();
+            }
+            else{
+                break;
+            }
+        }      
         if(st1.size()==0)
             return true;
         return false;
