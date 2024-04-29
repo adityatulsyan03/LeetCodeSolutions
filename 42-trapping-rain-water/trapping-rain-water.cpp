@@ -1,17 +1,18 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int n = height.size();
-        vector<int> leftMax(n), rightMax(n);  //prefix , Sufix Vector Array
-        for (int i = 1; i < n; ++i) 
-            leftMax[i] = max(height[i-1], leftMax[i-1]);  //PrefixSum
-        for (int i = n-2; i >= 0; --i) 
-            rightMax[i] = max(height[i+1], rightMax[i+1]);  //SufixSum
-        
-        int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            int waterLevel = min(leftMax[i], rightMax[i]);
-            if (waterLevel >= height[i]) ans += waterLevel - height[i];
+        int ans=0;
+        vector<int> left(height.size(),0),right(height.size(),0);
+        left[0]=height[0];
+        right[height.size()-1]=height[height.size()-1];
+        for(int i=1;i<height.size();i++){
+            left[i]=max(left[i-1],height[i]);
+        }
+        for(int i=height.size()-2;i>=0;i--){
+            right[i]=max(right[i+1],height[i]);
+        }
+        for(int i=0;i<height.size();i++){
+            ans+= (min(left[i],right[i])-height[i]);
         }
         return ans;
     }
