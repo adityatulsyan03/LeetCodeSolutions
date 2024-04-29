@@ -3,10 +3,13 @@ public:
     int trap(vector<int>& height) {
         int ans=0;
         vector<int> left(height.size(),0),right(height.size(),0);
-        for(int i=0;i<height.size();i++){
-            left[i]=max(left[(i>0)?i-1:i],height[i]);
-            int r=height.size()-1-i;
-            right[r]=max(right[(r<height.size()-1)?r+1:r],height[r]);
+        left[0]=height[0];
+        right[height.size()-1]=height[height.size()-1];
+        for(int i=1;i<height.size();i++){
+            left[i]=max(left[i-1],height[i]);
+        }
+        for(int i=height.size()-2;i>=0;i--){
+            right[i]=max(right[i+1],height[i]);
         }
         for(int i=0;i<height.size();i++){
             ans+= (min(left[i],right[i])-height[i]);
