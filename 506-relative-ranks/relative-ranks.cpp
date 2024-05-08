@@ -1,19 +1,19 @@
 class Solution {
 public:
     vector<string> findRelativeRanks(vector<int>& score) {
-        vector<int> s=score;
-        sort(s.rbegin(),s.rend());
-        unordered_map<int,string> m;
-        for(int i=0;i<s.size();i++){
-            if (i == 0) m[s[i]] = "Gold Medal";
-            else if (i == 1) m[s[i]] = "Silver Medal";
-            else if (i == 2) m[s[i]] = "Bronze Medal";
-            else m[s[i]] = to_string(i + 1);
+        vector<int> sorted=score;
+        sort(sorted.rbegin(),sorted.rend());
+        unordered_map<int,string> rank;
+        for(int i=0;i<score.size();i++){
+            if (i == 0) rank[sorted[i]] = "Gold Medal";
+            else if (i == 1) rank[sorted[i]] = "Silver Medal";
+            else if (i == 2) rank[sorted[i]] = "Bronze Medal";
+            else rank[sorted[i]] = to_string(i + 1);
         }
-        vector<string> f;
+        vector<string> ans;
         for(int i:score){
-            f.push_back(m[i]);
+            ans.push_back(rank[i]);
         }
-        return f;
+        return ans;
     }
 };
