@@ -6,13 +6,8 @@ public:
         Occ[0]=1;
         for(int i=0;i<n;i++){
             prefsum=(prefsum+nums[i]%k+k)%k;
-            if(Occ.find(prefsum)!=Occ.end()){
-                ans += Occ[prefsum];
-                Occ[prefsum]++;
-            }
-            else{
-                Occ[prefsum]=1;
-            }
+            ans += Occ[prefsum];
+            Occ[prefsum]++;
         }
         return ans;
     }
