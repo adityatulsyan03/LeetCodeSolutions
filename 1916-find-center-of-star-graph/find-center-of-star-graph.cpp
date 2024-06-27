@@ -1,14 +1,9 @@
 class Solution {
 public:
     int findCenter(vector<vector<int>>& edges) {
-        unordered_map<int,int> cnt;
-        for(int i=0;i<2;i++){
-            cnt[edges[i][0]]++;
-            cnt[edges[i][1]]++;
-        }
-        int ans=0;
-        for(auto [i,j]:cnt)
-            if(j==2)    ans=i;
+        int ans=edges[0][1];
+        if(edges[0][0]==edges[1][0] || edges[0][0]==edges[1][1])
+            ans=edges[0][0];
         return ans;
     }
 };
