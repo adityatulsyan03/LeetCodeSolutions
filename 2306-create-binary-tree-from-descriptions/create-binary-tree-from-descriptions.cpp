@@ -10,59 +10,38 @@
  * };
  */
 class Solution {
-private:
-    void make(TreeNode* root,unordered_map<int,pair<int,int>>& par_chi,int r){
-        
-        if(par_chi.find(r)!= par_chi.end()){
-
-            if(par_chi[r].first!=0){
-                root->left=new TreeNode(par_chi[r].first);
-                make(root->left,par_chi,par_chi[r].first);
-            }
-            else{
-                root->left=NULL;
-            }
-            if(par_chi[r].second!=0){
-                root->right=new TreeNode(par_chi[r].second);
-                make(root->right,par_chi,par_chi[r].second);
-            }
-            else{
-                root->right=NULL;
-            }
-
-        }
-
-    }
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
-        unordered_map<int,pair<int,int>> par_chi;
-        vector<int> v(100001,-1);
-        for(int i=0;i<descriptions.size();i++){
-            int par=descriptions[i][0];
-            int chi=descriptions[i][1];
-            if(v[par]!=2)
-                v[par]=1;
-            if(descriptions[i][2]==1){
-                par_chi[par].first=chi;
-                v[chi]=2;
-            }
-            else{
-                par_chi[par].second=chi;
-                v[chi]=2;
-            }
+        unordered_map<int,TreeNode*> mp;
+        unordered_map<int,bool> hasParent;
+        for(auto num:descriptions){
+            int pval=num[0],cval=num[1],isLeft=num[2];
+            TreeNode *par = nullptr, *chi = nullptr;
+
+            if(mp.find(pval)==mp.end())
+                par=new TreeNode(pval);
+            else
+                par=mp[pval];
+            
+            if(mp.find(cval)==mp.end())
+                chi=new TreeNode(cval);
+            else
+                chi=mp[cval];
+
+            if(isLeft)
+                par->left=chi;
+            else
+                par->right=chi;
+            
+            hasParent[cval]=true;
+            mp[cval]=chi;
+            mp[pval]=par;
         }
-        // for(auto [i,j]:par_chi){
-        //     cout<<i<<" "<<j.first<<" "<<j.second<<endl;
-        // }
-        int r;
-        for(int i=0;i<v.size();i++){
-            if(v[i]==1){
-                r=i;
-                break;
-            }
+        TreeNode* rootNode = nullptr;
+        for(auto& [i,j]:mp){
+            if(!hasParent[i])
+                rootNode=j;
         }
-        TreeNode* root=new TreeNode(r);
-        make(root,par_chi,r);
-        return root;
+        return rootNode;
     }
 };
