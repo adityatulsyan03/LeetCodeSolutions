@@ -1,13 +1,11 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        map<int,int> cnt;
-        for(int i:nums)
-            cnt[i]++;
-        vector<int> ans;
-        for(auto [i,j]:cnt)
-            ans.push_back(i);
-        nums=ans;
-        return cnt.size();
+        int j=1;
+        for(int i=0;i<nums.size()-1;i++){
+            if(nums[i+1]!=nums[i])
+                nums[j++]=nums[i+1];
+        }
+        return j;
     }
 };
