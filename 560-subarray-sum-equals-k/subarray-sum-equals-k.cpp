@@ -1,18 +1,18 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        int ans=0,prefsum=0;
-        unordered_map<int,int> freq;
-        freq[0]=1;
-        for(auto e:nums){
-            prefsum+=e;
+        int ans=0;
+        unordered_map<int,int> cnt;
+        int prefSum=0;
+        cnt[0]=1;
+        for(int i:nums){
+            prefSum+=i;
 
-            if(freq.find(prefsum-k) !=freq.end())
-                ans+=freq[prefsum-k];
+            if(cnt.find(prefSum-k)!=cnt.end())
+                ans+=cnt[prefSum-k];
             
-            freq[prefsum]++;
+            cnt[prefSum]++;
         }
-
         return ans;
     }
 };
