@@ -1,20 +1,20 @@
 class Solution {
 private:
-    void generateSubsets(vector<int>& nums,int index, vector<int>& curr, vector<vector<int>>& result){
-        if (index == nums.size()) {
-            result.push_back(curr);
+    void helper(int i,vector<vector<int>>& ans,vector<int> temp,vector<int> nums){
+        if(i==nums.size()){
+            ans.push_back(temp);
             return;
         }
-        generateSubsets(nums, index+1, curr, result);
-        curr.push_back(nums[index]);
-        generateSubsets(nums, index+1, curr, result);
-        curr.pop_back();
+        temp.push_back(nums[i]);
+        helper(i+1,ans,temp,nums);
+        temp.pop_back();
+        helper(i+1,ans,temp,nums);
     }
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> result;
-        vector<int> curr;
-        generateSubsets(nums, 0, curr, result);
-        return result;
+        vector<vector<int>> ans;
+        vector<int> temp;
+        helper(0,ans,temp,nums);
+        return ans;
     }
 };
