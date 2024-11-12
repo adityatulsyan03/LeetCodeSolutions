@@ -1,31 +1,38 @@
 class Solution {
+private:
+    int find(int num,vector<vector<int>>& items){
+        int s=0,e=items.size()-1;
+        int index=-1;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(items[mid][0]<=num){
+                index = mid;
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        return index;
+    }
 public:
     vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
-        int maxI = INT_MAX;
-        vector<vector<int>> res = {{0, 0, maxI}};
-
         sort(items.begin(), items.end());
-
-        for (const auto& item : items) {
-            int price = item[0];
-            int beauty = item[1];
-            if (beauty > res.back()[1]) {
-                res.back()[2] = price;
-                res.push_back({price, beauty, maxI});
-            }
+        int max_val = 0;
+        for (auto& item : items) {
+            max_val = max(max_val, item[1]);
+            item[1] = max_val;
         }
-
         vector<int> ans;
-
-        for (int x : queries) {
-            for (int i = res.size() - 1; i >= 0; i--) {
-                if (res[i][0] <= x) {
-                    ans.push_back(res[i][1]);
-                    break;
-                }
+        for (int i : queries) {
+            int temp = find(i, items);
+            if (temp == -1) {
+                ans.push_back(0);
+            } else {
+                ans.push_back(items[temp][1]);
             }
         }
-
+        
         return ans;
     }
 };
