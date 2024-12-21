@@ -1,48 +1,42 @@
 class Solution {
 public:
     static string repeatLimitedString(string& s, int k) {
-        int freq[26]={0}, hz=0;
-
-        // Count frequency
-        for (char c : s) 
-            freq[c-'a']++;
+        vector<int> freq(26,0);
+        priority_queue<pair<char,int>> pq;
+        for(char i:s)
+            freq[i-'a']++;
         
-        // Use C-array to act as max heap
-        char heap[26];
-        for (int i = 0; i < 26; i++) {
-            if (freq[i]> 0) 
-                heap[hz++]='a'+ i;
+        for(int i=0;i<26;i++){
+            if(freq[i]!=0)
+                pq.push({i+'a',freq[i]});
         }
-        make_heap(heap, heap+hz);
-
         string ans;
-        ans.reserve(s.size());
-
-        while (hz > 0) {
-            pop_heap(heap, heap + hz);
-            char c= heap[--hz];
-
-            int& f=freq[c-'a'];
-            int use=min(f, k); // Add as many characters as possible (up to k)
-            ans.append(use, c);
-            f-= use;
-
-            if (f > 0 && hz > 0) {
-                // Use the next character to interleave
-                pop_heap(heap, heap+hz);
-                char c2=heap[--hz];
-
-                ans.push_back(c2);
-                int f2 =--freq[c2 - 'a'];
-
-                // Reinsert both characters back 
-                if (f2 > 0) {
-                    heap[hz++]=c2;
-                    push_heap(heap, heap + hz);
+        while(!pq.empty()){
+            auto top = pq.top();
+            pq.pop();
+            char ch = top.first;
+            int f=top.second;
+            if(f<=k){
+                for(int i=0;i<f;i++){
+                    ans+=ch;
                 }
-                heap[hz++] = c;
-                push_heap(heap, heap + hz);
-            } 
+            }
+            else{
+                for(int i=0;i<k;i++){
+                    ans+=ch;
+                }
+                if (!pq.empty()) {
+                    auto t = pq.top(); 
+                    pq.pop();
+                    ans += t.first;
+                    if (t.second > 1) {
+                        pq.push({t.first, t.second - 1});
+                    }
+                    if (f - k > 0) {
+                        pq.push({ch, f - k});
+                    }
+                }
+            }
         }
         return ans;
     }
