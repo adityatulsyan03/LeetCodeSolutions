@@ -12,7 +12,6 @@ public:
         for(auto [i,j]:sum){
             ans.push_back({i,j});
         }
-        sort(ans.begin(), ans.end());
         return ans;
     }
 };
