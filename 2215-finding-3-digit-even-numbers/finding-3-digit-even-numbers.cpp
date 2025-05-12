@@ -1,36 +1,22 @@
 class Solution {
 public:
     vector<int> findEvenNumbers(vector<int>& digits) {
-        unordered_map<int,int> cnt;
-        for(int i:digits){
-            if(cnt[i]==3){
-                continue;
-            }else{
-                cnt[i]++;
-            }
+        vector<int> freq(10,0); 
+        int cnt=0;
+        for(int x: digits){
+            freq[x]++;
+            cnt+=(x&1)==0;
         }
-        vector<int> digit;
-        for(auto [i,j]:cnt){
-            for(int k=0;k<j;k++){
-                digit.push_back(i);
-            }
+        if (cnt==0) return {};
+        vector<int> ans;
+        for(int x=100; x<=999; x+=2){
+            auto freq0=freq;
+            int x0=x%10, x1=(x/10)%10, x2=x/100;
+            if (freq0[x0]--<=0) continue;
+            if (freq0[x1]--<=0) continue;
+            if (freq0[x2]--<=0) continue;
+            ans.push_back(x);
         }
-        set<int> s;
-        for(int i=0;i<digit.size();i++){
-            if(digit[i]%2==0){
-                for(int j=0;j<digit.size();j++){
-                    if(j==i) continue;
-                    for(int k=0;k<digit.size();k++){
-                        if(k==i || k==j || digit[k]==0) continue;
-                        int t=digit[k]*100;
-                        t+=digit[j]*10;
-                        t+=digit[i];
-                        s.insert(t);
-                    }
-                }
-            }
-        }
-        vector<int> ans(s.begin(),s.end());
         return ans;
     }
 };
