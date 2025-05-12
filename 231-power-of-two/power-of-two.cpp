@@ -1,10 +1,11 @@
 class Solution {
 private:
     bool solve(int n){
+        if(n==0)    return false;
         if(n==1){
             return true;
         }
-        if(n<=0 || n%2!=0){
+        if((n&1)==1 && n!=1){
             return false;
         }
         return solve(n>>1);
