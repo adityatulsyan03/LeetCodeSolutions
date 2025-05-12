@@ -26,9 +26,6 @@ public:
             used[i] = true;
             solve(digits, s, 1, digits[i], used);
         }
-        for(int i:s){
-            cout<<i<<" ";
-        }
         return s.size();
     }
 };
