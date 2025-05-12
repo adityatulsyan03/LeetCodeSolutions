@@ -10,16 +10,20 @@
  */
 class Solution {
 private:
-    ListNode* solve(ListNode* head){
-        if (head==nullptr || head->next==nullptr)   return head;
-        ListNode* first=head;
-        ListNode* second = head->next;
-        first->next=solve(second->next);
-        second->next=first;
+    ListNode* solve(ListNode* first, ListNode* second) {
+        if (first == nullptr || second == nullptr) {
+            return first;
+        }
+
+        ListNode* nextPair = second->next;
+        second->next = first;
+        first->next = solve(nextPair, nextPair ? nextPair->next : nullptr);
         return second;
     }
+
 public:
     ListNode* swapPairs(ListNode* head) {
-        return solve(head);
+        if (head == nullptr || head->next == nullptr) return head;
+        return solve(head, head->next);
     }
 };
