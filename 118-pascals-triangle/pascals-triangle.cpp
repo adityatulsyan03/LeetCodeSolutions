@@ -1,19 +1,15 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>> ans;
-        ans.push_back({1});
-        numRows--;
-        vector<int> prev={1};
-        while(numRows--){
-            vector<int> curr(prev.size()+1,1);
-            for(int i=1;i<(curr.size()+1)/2;i++){
-                curr[i]=prev[i]+prev[i-1];
-                curr[curr.size()-i-1]=curr[i];
+        vector<vector<int>> dp(numRows);
+        for(int i=0;i<numRows;i++){
+            dp[i].resize(i+1);
+            dp[i][0]=1;
+            dp[i][i]=1;
+            for(int j=1;j<i;j++){
+                dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
             }
-            ans.push_back(curr);
-            prev=curr;
         }
-        return ans;
+        return dp;
     }
 };
