@@ -7,14 +7,11 @@ public:
             cnt[s[i]-'a']++;
         }
         for(int i=0;i<26;i++){
-            if(cnt[i]%2==1){
-                o=max(o,cnt[i]);
-            }
-            if(cnt[i]!=0 && cnt[i]%2==0){
-                if(e>cnt[i]){
-                    e=cnt[i];
-                }
-            }
+            if(cnt[i]==0)   continue;
+            
+            if(cnt[i]%2==1) o=max(o,cnt[i]);
+            else    e=min(e,cnt[i]);
+
         }
         return o-e;
     }
