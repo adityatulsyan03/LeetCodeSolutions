@@ -1,22 +1,22 @@
 class Solution {
-int cnt=0;
 private:
-    void generateSubsets(int mx, vector<int>& nums,int index, int curr){
+    int count(vector<int>& nums,int index, int curr, int mx, vector<vector<int>>& dp){
         if (index == nums.size()) {
-            if(mx==curr)
-                cnt++;
-            return;
+            return (curr==mx)?1:0;
         }
-        generateSubsets(mx, nums, index+1, curr);
-        generateSubsets(mx, nums, index+1, curr|nums[index]);
+        if(dp[index][curr]!=-1)
+            return dp[index][curr];
+
+        int cntWithout = count(nums,index+1,curr,mx,dp);
+        int cntWith = count(nums,index+1,curr|nums[index],mx,dp);
+        return dp[index][curr]= cntWithout + cntWith;
     }
 public:
     int countMaxOrSubsets(vector<int>& nums) {
-        int mx=0;
+        int mx=0,n=nums.size();
         for(auto i:nums)
             mx = mx|i;
-        int curr=0;
-        generateSubsets(mx, nums, 0, curr);
-        return cnt;
+        vector<vector<int>> dp(n,vector<int>(mx+1,-1));
+        return count(nums,0 ,0, mx,dp);
     }
 };
