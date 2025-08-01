@@ -1,18 +1,13 @@
 class Solution {
-private:
-    int helper(int idx,vector<int>& nums,vector<int>& dp){
-        if(idx>=nums.size()){
-            return 0;
-        }
-        if(dp[idx]!=-1)
-            return dp[idx];
-        int take = nums[idx] + helper(idx+2,nums,dp);
-        int skip = helper(idx+1,nums,dp);
-        return dp[idx]=max(take,skip);
-    }
 public:
     int rob(vector<int>& nums) {
         vector<int> dp(nums.size(),-1);
-        return helper(0,nums,dp);
+        dp[0]=nums[0];
+        for(int i=1;i<nums.size();i++){
+            int take=nums[i] + ((i>1)?dp[i-2]:0) ;
+            int skip=dp[i-1];
+            dp[i]=max(take,skip);
+        }
+        return dp[nums.size()-1];
     }
 };
