@@ -1,16 +1,14 @@
 class Solution:
+    def helper(self, n: int, ans: set, temp: str):
+        if len(temp) == n * 2:
+            ans.add(temp)
+        else:
+            a = "()"
+            for i in range(len(temp) + 1):
+                t = temp[:i] + a + temp[i:]
+                self.helper(n, ans, t)
+
     def generateParenthesis(self, n: int) -> List[str]:
-        def backtrack(open_count, close_count, curr, ans):
-            if open_count == n and close_count == n:
-                ans.append(curr)
-                return
-
-            if open_count < n:
-                backtrack(open_count + 1, close_count, curr + "(", ans)
-
-            if close_count < open_count:
-                backtrack(open_count, close_count + 1, curr + ")", ans)
-
-        ans = []
-        backtrack(0, 0, "", ans)
-        return ans
+        ans = set()
+        self.helper(n, ans, "")
+        return list(ans)
